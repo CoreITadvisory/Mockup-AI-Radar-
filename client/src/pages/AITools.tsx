@@ -31,10 +31,15 @@ export default function AITools() {
   }>({});
   const [filterSheetOpen, setFilterSheetOpen] = useState(false);
   
+  // Clean up filters to remove "all" values
+  const cleanFilters = Object.fromEntries(
+    Object.entries(filters).filter(([_, value]) => value && value !== "all")
+  );
+  
   // Use the custom hook with combined filters
   const { data: tools, isLoading, isError, refetch } = useToolsQuery({
     ...(activeTab !== "all" ? { tab: activeTab } : {}),
-    ...filters
+    ...cleanFilters
   });
 
   // Filter tools based on search query (client-side filtering)
@@ -108,7 +113,16 @@ export default function AITools() {
                   <Label htmlFor="risk-level">Risiko-Level</Label>
                   <Select 
                     value={filters.riskLevel || ""}
-                    onValueChange={(value) => setFilters({...filters, riskLevel: value || undefined})}
+                    onValueChange={(value) => {
+                      if (!value) {
+                        // Erstelle eine Kopie und entferne den riskLevel Filter
+                        const newFilters = {...filters};
+                        delete newFilters.riskLevel;
+                        setFilters(newFilters);
+                      } else {
+                        setFilters({...filters, riskLevel: value});
+                      }
+                    }}
                   >
                     <SelectTrigger id="risk-level">
                       <SelectValue placeholder="Beliebig" />
@@ -126,7 +140,15 @@ export default function AITools() {
                   <Label htmlFor="category">Kategorie</Label>
                   <Select 
                     value={filters.category || ""}
-                    onValueChange={(value) => setFilters({...filters, category: value || undefined})}
+                    onValueChange={(value) => {
+                      if (!value) {
+                        const newFilters = {...filters};
+                        delete newFilters.category;
+                        setFilters(newFilters);
+                      } else {
+                        setFilters({...filters, category: value});
+                      }
+                    }}
                   >
                     <SelectTrigger id="category">
                       <SelectValue placeholder="Beliebig" />
@@ -147,7 +169,15 @@ export default function AITools() {
                   <Label htmlFor="source">Quelle</Label>
                   <Select 
                     value={filters.source || ""}
-                    onValueChange={(value) => setFilters({...filters, source: value || undefined})}
+                    onValueChange={(value) => {
+                      if (!value) {
+                        const newFilters = {...filters};
+                        delete newFilters.source;
+                        setFilters(newFilters);
+                      } else {
+                        setFilters({...filters, source: value});
+                      }
+                    }}
                   >
                     <SelectTrigger id="source">
                       <SelectValue placeholder="Beliebig" />

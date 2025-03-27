@@ -50,14 +50,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Log incoming request
       console.log("GET /api/tools with filters:", filters);
 
-      const tools = await storage.getAITools(filters);
+      // Filter out any values that are "all" as they should be treated as no filter
+      const cleanFilters = Object.fromEntries(
+        Object.entries(filters).filter(([_, v]) => v !== "all")
+      );
+      
+      console.log("Cleaned filters:", cleanFilters);
+      
+      const tools = await storage.getAITools(cleanFilters);
       
       // Check if we have any tools, if not and there's no filters, try to generate some
-      if (tools.length === 0 && Object.keys(filters).length === 0) {
+      if (tools.length === 0 && Object.keys(cleanFilters).length === 0) {
         // Force regenerate
         console.log("No tools found with empty filters, trying to regenerate...");
         await collectData();
-        const refreshedTools = await storage.getAITools(filters);
+        const refreshedTools = await storage.getAITools(cleanFilters);
         return res.json(refreshedTools);
       }
       
