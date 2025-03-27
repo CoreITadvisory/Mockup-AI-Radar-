@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { Shield, Search, LineChart, CheckCircle } from "lucide-react";
 import { useTheme } from "@/contexts/ToolsContext";
+import dashboardPreview from "@assets/Bildschirmfoto 2025-03-27 um 16.20.12.png";
 
 export default function LandingPage() {
   const { isDarkMode } = useTheme();
@@ -65,14 +66,12 @@ export default function LandingPage() {
                 
                 {/* Dashboard preview */}
                 <div className="p-4">
-                  <div className="h-64 bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center border border-slate-200 dark:border-slate-700 shadow">
-                    <div className="text-center">
-                      <div className="flex justify-center mb-3">
-                        <Shield className="h-8 w-8 text-blue-600 dark:text-blue-400" />
-                      </div>
-                      <p className="text-slate-500 dark:text-slate-400 font-medium">AI Guard Dashboard</p>
-                      <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Automatische Überwachung und Analyse</p>
-                    </div>
+                  <div className="bg-white dark:bg-slate-800 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 shadow">
+                    <img 
+                      src={dashboardPreview} 
+                      alt="AI Guard Dashboard" 
+                      className="w-full object-cover rounded-lg shadow-inner"
+                    />
                   </div>
                 </div>
               </div>
