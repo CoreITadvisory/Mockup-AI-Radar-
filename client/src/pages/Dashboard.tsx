@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import StatCard from "@/components/dashboard/StatCard";
 import ToolCard from "@/components/tools/ToolCard";
-import { RiskLevel, Category, Source, Status } from "@shared/schema";
+import { RiskLevel, Category, Source, Status, AITool } from "@shared/schema";
 import { ExportDialog } from "@/components/ui/export-dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
@@ -18,9 +18,9 @@ import {
 export default function Dashboard() {
   const [isExportDialogOpen, setIsExportDialogOpen] = useState(false);
   const [filters, setFilters] = useState({
-    riskLevel: "",
-    category: "",
-    source: "",
+    riskLevel: "all",
+    category: "all",
+    source: "all",
     date: "",
   });
 
@@ -41,7 +41,7 @@ export default function Dashboard() {
     data: tools,
     isLoading: isToolsLoading,
     refetch: refetchTools,
-  } = useQuery({
+  } = useQuery<AITool[]>({
     queryKey: ["/api/tools", filters],
   });
 
@@ -138,7 +138,7 @@ export default function Dashboard() {
                 <SelectValue placeholder="All Risk Levels" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Risk Levels</SelectItem>
+                <SelectItem value="all">All Risk Levels</SelectItem>
                 <SelectItem value={RiskLevel.HIGH}>High Risk</SelectItem>
                 <SelectItem value={RiskLevel.MEDIUM}>Medium Risk</SelectItem>
                 <SelectItem value={RiskLevel.LOW}>Low Risk</SelectItem>
@@ -156,7 +156,7 @@ export default function Dashboard() {
                 <SelectValue placeholder="All Categories" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Categories</SelectItem>
+                <SelectItem value="all">All Categories</SelectItem>
                 <SelectItem value={Category.TEXT}>Text Generation</SelectItem>
                 <SelectItem value={Category.IMAGE}>Image Generation</SelectItem>
                 <SelectItem value={Category.VOICE}>Voice Synthesis</SelectItem>
@@ -177,7 +177,7 @@ export default function Dashboard() {
                 <SelectValue placeholder="All Sources" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Sources</SelectItem>
+                <SelectItem value="all">All Sources</SelectItem>
                 <SelectItem value={Source.GITHUB}>GitHub</SelectItem>
                 <SelectItem value={Source.PRODUCT_HUNT}>Product Hunt</SelectItem>
                 <SelectItem value={Source.TWITTER}>Twitter/X</SelectItem>
@@ -248,7 +248,7 @@ export default function Dashboard() {
         ) : (
           <div className="space-y-4">
             {tools && tools.length > 0 ? (
-              tools.map((tool) => <ToolCard key={tool.id} tool={tool} />)
+              tools.map((tool: AITool) => <ToolCard key={tool.id} tool={tool} />)
             ) : (
               <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 text-center">
                 <p className="text-slate-500">No AI tools match your filters.</p>

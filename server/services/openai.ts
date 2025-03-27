@@ -2,7 +2,7 @@ import OpenAI from "openai";
 
 // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
 const openai = new OpenAI({ 
-  apiKey: process.env.OPENAI_API_KEY || "sk-xxxx" // Fallback to dummy key for development
+  apiKey: process.env.OPENAI_API_KEY
 });
 
 export async function analyzeWithOpenAI(prompt: string): Promise<any> {
@@ -14,11 +14,27 @@ export async function analyzeWithOpenAI(prompt: string): Promise<any> {
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o",
-      messages: [{ role: "user", content: prompt }],
-      response_format: { type: "json_object" }
+      messages: [
+        {
+          role: "system",
+          content: "You are a cybersecurity expert specialized in AI tool risk assessment for enterprise environments. Provide detailed, accurate security analyses in JSON format."
+        },
+        { 
+          role: "user", 
+          content: prompt 
+        }
+      ],
+      response_format: { type: "json_object" },
+      temperature: 0.2 // Lower temperature for more consistent, analytical responses
     });
 
-    return JSON.parse(response.choices[0].message.content);
+    // Ensure we have a valid response with content
+    if (response.choices && response.choices.length > 0 && response.choices[0].message && response.choices[0].message.content) {
+      return JSON.parse(response.choices[0].message.content);
+    }
+    
+    console.warn("OpenAI returned an empty or invalid response");
+    return {};
   } catch (error) {
     console.error("Error calling OpenAI:", error);
     return mockAnalysis(prompt);

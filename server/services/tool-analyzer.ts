@@ -1,4 +1,4 @@
-import { AITool, RiskLevel, Category } from "@shared/schema";
+import { AITool, RiskLevel, Category, RiskLevelType } from "@shared/schema";
 import { analyzeWithOpenAI } from "./openai";
 
 export async function analyzeToolSecurity(tool: {
@@ -11,33 +11,44 @@ export async function analyzeToolSecurity(tool: {
   sourceUrl: string;
   websiteUrl?: string;
 }): Promise<{
-  riskLevel: string;
+  riskLevel: RiskLevelType;
   securityAssessment: string[];
 }> {
   try {
     const prompt = `
-      You are a cybersecurity expert specializing in AI tool security assessment for enterprise security teams.
+      Please perform a comprehensive security risk assessment for this AI tool from an enterprise security perspective:
       
-      Please analyze the following AI tool:
+      ## Tool Information
+      - Name: ${tool.name}
+      - Description: ${tool.description}
+      - Provider: ${tool.provider}
+      - Category: ${tool.category}
+      - Access Type: ${tool.accessType}
+      - Source: ${tool.source}
+      - Website: ${tool.websiteUrl || "Not provided"}
       
-      Name: ${tool.name}
-      Description: ${tool.description}
-      Provider: ${tool.provider}
-      Category: ${tool.category}
-      Access Type: ${tool.accessType}
-      Website: ${tool.websiteUrl || "Not provided"}
+      ## Assessment Requirements
+      1. Assign a risk level using only one of these values: "high", "medium", or "low"
+      2. Identify 3-5 specific security or privacy risks this tool might introduce in an enterprise setting
       
-      Based on the information provided:
-      1. Determine the risk level (high, medium, or low) for enterprise use
-      2. Identify potential security risks and privacy concerns (at least 3)
+      ## Risk Level Guidelines
+      - High Risk: Tools that access, process, or store sensitive data; have broad access permissions; or lack transparent data policies
+      - Medium Risk: Tools with limited data access or strong privacy controls but some enterprise integration concerns
+      - Low Risk: Tools with clear data policies, offline processing capabilities, or enterprise-grade security features
       
-      Respond in JSON format with the following structure:
+      ## Security Assessment Guidelines
+      - Be specific about potential data exfiltration vectors
+      - Consider issues with data processing transparency
+      - Evaluate access control mechanisms
+      - Assess regulatory compliance implications
+      - Identify potential for misuse
+      - Consider API security if applicable
+      
+      Format your response strictly as a JSON object with this structure:
       {
-        "riskLevel": "high/medium/low",
-        "securityAssessment": ["risk 1", "risk 2", "risk 3", ...]
+        "riskLevel": "high|medium|low",
+        "securityAssessment": ["Detailed security risk 1", "Detailed security risk 2", "Detailed security risk 3", ...]
       }
-      
-      Each security risk should be a specific, detailed sentence about a potential security issue.
     `;
 
     const result = await analyzeWithOpenAI(prompt);
@@ -47,8 +58,20 @@ export async function analyzeToolSecurity(tool: {
       return generateFallbackAnalysis(tool);
     }
     
+    // Ensure risk level is one of the allowed values
+    const riskLevel = result.riskLevel.toLowerCase();
+    let validRiskLevel: RiskLevelType = RiskLevel.MEDIUM;
+    
+    if (riskLevel === RiskLevel.HIGH) {
+      validRiskLevel = RiskLevel.HIGH;
+    } else if (riskLevel === RiskLevel.MEDIUM) {
+      validRiskLevel = RiskLevel.MEDIUM;
+    } else if (riskLevel === RiskLevel.LOW) {
+      validRiskLevel = RiskLevel.LOW;
+    }
+    
     return {
-      riskLevel: result.riskLevel,
+      riskLevel: validRiskLevel,
       securityAssessment: result.securityAssessment,
     };
   } catch (error) {
@@ -59,11 +82,11 @@ export async function analyzeToolSecurity(tool: {
 
 // Generate a basic analysis if OpenAI fails
 function generateFallbackAnalysis(tool: any): {
-  riskLevel: string;
+  riskLevel: RiskLevelType;
   securityAssessment: string[];
 } {
   // Determine risk level based on category and access type
-  let riskLevel = RiskLevel.MEDIUM;
+  let riskLevel: RiskLevelType = RiskLevel.MEDIUM;
   
   if (tool.category === Category.DATA || tool.category === Category.TEXT) {
     riskLevel = RiskLevel.HIGH;
