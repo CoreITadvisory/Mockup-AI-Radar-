@@ -4,8 +4,13 @@ import { apiRequest } from "@/lib/queryClient";
 import { AITool, Status } from "@shared/schema";
 
 export function useToolsQuery(filters?: Record<string, string>) {
+  // Clean up filters to remove any undefined or empty values
+  const cleanFilters = filters ? Object.fromEntries(
+    Object.entries(filters).filter(([_, v]) => v !== undefined && v !== "")
+  ) : {};
+  
   return useQuery<AITool[]>({
-    queryKey: ["/api/tools", filters],
+    queryKey: ["/api/tools", cleanFilters],
     // Ensure we're invalidating the query when filters change
     refetchOnWindowFocus: false,
     refetchOnMount: true

@@ -15,6 +15,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Initialize tool collection
   initializeDataCollection();
 
+  // Force seed data endpoint (for development)
+  app.get("/api/seed", async (req, res) => {
+    try {
+      await collectData();
+      res.json({ success: true, message: "Data re-seeded successfully" });
+    } catch (error) {
+      res.status(500).json({ message: `Failed to seed data: ${error.message}` });
+    }
+  });
+
   // API Routes
   app.get("/api/tools", async (req, res) => {
     try {
@@ -36,8 +46,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       } else if (tab === "blocked") {
         filters.status = Status.BLOCKED;
       }
+      
+      // Log incoming request
+      console.log("GET /api/tools with filters:", filters);
 
       const tools = await storage.getAITools(filters);
+      
+      // Check if we have any tools, if not and there's no filters, try to generate some
+      if (tools.length === 0 && Object.keys(filters).length === 0) {
+        // Force regenerate
+        console.log("No tools found with empty filters, trying to regenerate...");
+        await collectData();
+        const refreshedTools = await storage.getAITools(filters);
+        return res.json(refreshedTools);
+      }
+      
       res.json(tools);
     } catch (error) {
       res.status(500).json({ message: `Failed to get tools: ${error.message}` });
@@ -257,7 +280,10 @@ async function seedInitialData() {
     
     // Only seed if no tools exist
     if (existingTools.length === 0) {
+      console.log("No tools found, seeding initial data...");
       await collectData();
+    } else {
+      console.log(`Found ${existingTools.length} existing AI tools`);
     }
   } catch (error) {
     console.error("Error seeding initial data:", error);

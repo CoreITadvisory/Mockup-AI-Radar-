@@ -86,7 +86,7 @@ function filtersToQueryString(filters?: Record<string, string>): string {
   const params = new URLSearchParams();
   
   Object.entries(filters).forEach(([key, value]) => {
-    if (value) {
+    if (value !== undefined && value !== "") {
       params.append(key, value);
     }
   });

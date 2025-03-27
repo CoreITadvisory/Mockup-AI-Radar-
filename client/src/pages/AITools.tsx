@@ -32,8 +32,8 @@ export default function AITools() {
   const [filterSheetOpen, setFilterSheetOpen] = useState(false);
   
   // Use the custom hook with combined filters
-  const { data: tools, isLoading, isError } = useToolsQuery({
-    tab: activeTab,
+  const { data: tools, isLoading, isError, refetch } = useToolsQuery({
+    ...(activeTab !== "all" ? { tab: activeTab } : {}),
     ...filters
   });
 
