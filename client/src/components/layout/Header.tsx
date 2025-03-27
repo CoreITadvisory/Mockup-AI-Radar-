@@ -1,14 +1,16 @@
 import { useState } from "react";
+import { Link, useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { ExportDialog } from "@/components/ui/export-dialog";
 import { Button } from "@/components/ui/button";
-import { MoonIcon, SunIcon, Menu, Download } from "lucide-react";
+import { MoonIcon, SunIcon, Menu, Download, Shield } from "lucide-react";
 import { useTheme } from "@/contexts/ToolsContext";
 
 export default function Header() {
   const [isExportDialogOpen, setIsExportDialogOpen] = useState(false);
   const { toast } = useToast();
   const { isDarkMode, toggleDarkMode } = useTheme();
+  const [location] = useLocation();
 
   const handleToggleSidebar = () => {
     // This would be implemented if we needed to toggle the sidebar on mobile
@@ -27,7 +29,21 @@ export default function Header() {
         >
           <Menu className="h-5 w-5" />
         </button>
-        <h1 className="text-xl font-semibold">Dashboard</h1>
+        <Link href="/home">
+          <a className="flex items-center space-x-2 mr-5 hover:opacity-80 transition-opacity">
+            <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-1.5">
+              <Shield className="text-white h-4 w-4" />
+            </div>
+            <span className="text-lg font-semibold">AI Guard</span>
+          </a>
+        </Link>
+        <h1 className="text-xl font-semibold hidden xs:block">
+          {location === "/home" ? "Home" : 
+           location === "/dashboard" ? "Dashboard" : 
+           location === "/tools" ? "AI Tools" : 
+           location === "/risks" ? "Risk Assessment" : 
+           location === "/settings" ? "Settings" : "Dashboard"}
+        </h1>
       </div>
 
       <div className="flex items-center space-x-3">
