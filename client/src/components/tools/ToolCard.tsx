@@ -4,9 +4,22 @@ import { queryClient } from "@/lib/queryClient";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { 
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { AITool, RiskLevel, Status } from "@shared/schema";
 import { cn } from "@/lib/utils";
-import { ExternalLink, FileText, Check, Ban } from "lucide-react";
+import { 
+  ExternalLink, 
+  FileText, 
+  Check, 
+  Ban, 
+  AlertTriangle, 
+  AlertCircle,
+  Shield 
+} from "lucide-react";
 
 type ToolCardProps = {
   tool: AITool;
@@ -205,7 +218,42 @@ export default function ToolCard({ tool }: ToolCardProps) {
             </div>
             <div>
               <div className="flex items-center">
-                <h3 className="text-lg font-semibold dark:text-white">{tool.name}</h3>
+                <HoverCard>
+                  <HoverCardTrigger asChild>
+                    <h3 className="text-lg font-semibold dark:text-white cursor-pointer hover:text-primary transition-colors duration-200">
+                      {tool.name}
+                    </h3>
+                  </HoverCardTrigger>
+                  <HoverCardContent className="w-80 animate-in fade-in-0 zoom-in-95 duration-200">
+                    <div className="flex justify-between space-x-4">
+                      <div className={cn(
+                        "w-12 h-12 rounded-full flex items-center justify-center",
+                        getIconBgForCategory(tool.category)
+                      )}>
+                        <i className={cn(
+                          getIconForCategory(tool.category),
+                          "text-xl",
+                          getIconColorForCategory(tool.category)
+                        )}></i>
+                      </div>
+                      <div className="space-y-1">
+                        <h4 className="text-sm font-semibold">{tool.name}</h4>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">
+                          {tool.description}
+                        </p>
+                        <div className="flex items-center pt-1">
+                          <span className="text-xs bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded-full">
+                            <i className={cn(getSourceIcon(tool.source), "mr-1")}></i>
+                            {tool.source.charAt(0).toUpperCase() + tool.source.slice(1)}
+                          </span>
+                          <span className="text-xs bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded-full ml-2">
+                            {tool.category.charAt(0).toUpperCase() + tool.category.slice(1)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </HoverCardContent>
+                </HoverCard>
                 {getRiskLevelBadge(tool.riskLevel)}
               </div>
               <p className="text-slate-500 dark:text-slate-400 text-sm">{tool.description}</p>
@@ -257,12 +305,21 @@ export default function ToolCard({ tool }: ToolCardProps) {
           </p>
           <ul
             className={cn(
-              "text-sm space-y-1 pl-5 list-disc",
+              "text-sm space-y-2 pl-0 list-none",
               getSecurityAssessmentTextColor(tool.riskLevel)
             )}
           >
             {(tool.securityAssessment as string[]).map((risk, index) => (
-              <li key={index}>{risk}</li>
+              <li key={index} className="flex items-start">
+                {tool.riskLevel === RiskLevel.HIGH ? (
+                  <AlertCircle className="h-4 w-4 text-red-500 mt-0.5 mr-2 flex-shrink-0" />
+                ) : tool.riskLevel === RiskLevel.MEDIUM ? (
+                  <AlertTriangle className="h-4 w-4 text-yellow-500 mt-0.5 mr-2 flex-shrink-0" />
+                ) : (
+                  <Shield className="h-4 w-4 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                )}
+                <span>{risk}</span>
+              </li>
             ))}
           </ul>
         </div>

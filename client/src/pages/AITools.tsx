@@ -4,10 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import ToolCard from "@/components/tools/ToolCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { RiskLevel, Status, Category, Source } from "@shared/schema";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
-import { Search, X, Filter } from "lucide-react";
+import { Search, X, Filter, AlertCircle, AlertTriangle, Shield, Github, Hash, Twitter, MessageCircle } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToolsQuery } from "@/hooks/use-tools";
 import { 
@@ -54,6 +55,69 @@ export default function AITools() {
       tool.category.toLowerCase().includes(query)
     );
   });
+
+  // Get filter badge icon
+  const getFilterIcon = (filterType: string, filterValue: string) => {
+    if (filterType === 'riskLevel') {
+      switch (filterValue) {
+        case RiskLevel.HIGH:
+          return <AlertCircle className="h-3 w-3 mr-1 text-red-500" />;
+        case RiskLevel.MEDIUM:
+          return <AlertTriangle className="h-3 w-3 mr-1 text-yellow-500" />;
+        case RiskLevel.LOW:
+          return <Shield className="h-3 w-3 mr-1 text-green-500" />;
+        default:
+          return null;
+      }
+    } else if (filterType === 'source') {
+      switch (filterValue) {
+        case Source.GITHUB:
+          return <Github className="h-3 w-3 mr-1" />;
+        case Source.PRODUCT_HUNT:
+          return <Hash className="h-3 w-3 mr-1" />;
+        case Source.TWITTER:
+          return <Twitter className="h-3 w-3 mr-1" />;
+        case Source.REDDIT:
+          return <MessageCircle className="h-3 w-3 mr-1" />;
+        default:
+          return null;
+      }
+    }
+    return null;
+  };
+
+  // Get human-readable filter label
+  const getFilterLabel = (filterType: string, filterValue: string) => {
+    if (filterType === 'riskLevel') {
+      switch (filterValue) {
+        case RiskLevel.HIGH:
+          return 'High Risk';
+        case RiskLevel.MEDIUM:
+          return 'Medium Risk';
+        case RiskLevel.LOW:
+          return 'Low Risk';
+        default:
+          return filterValue;
+      }
+    } else if (filterType === 'category') {
+      return filterValue.charAt(0).toUpperCase() + filterValue.slice(1);
+    } else if (filterType === 'source') {
+      switch (filterValue) {
+        case Source.PRODUCT_HUNT:
+          return 'ProductHunt';
+        default:
+          return filterValue.charAt(0).toUpperCase() + filterValue.slice(1);
+      }
+    }
+    return filterValue;
+  };
+
+  // Remove a single filter
+  const removeFilter = (filterType: string) => {
+    const newFilters = { ...filters };
+    delete newFilters[filterType as keyof typeof filters];
+    setFilters(newFilters);
+  };
 
   // Reset filters
   const resetFilters = () => {
@@ -205,6 +269,37 @@ export default function AITools() {
           </Sheet>
         </div>
       </div>
+
+      {Object.keys(cleanFilters).length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-4">
+          {Object.entries(cleanFilters).map(([filterType, filterValue]) => (
+            <Badge 
+              key={filterType} 
+              variant="outline"
+              className="py-1 px-2 flex items-center gap-1 bg-slate-100 dark:bg-slate-800"
+            >
+              {getFilterIcon(filterType, filterValue as string)}
+              <span>{getFilterLabel(filterType, filterValue as string)}</span>
+              <button
+                onClick={() => removeFilter(filterType)}
+                className="ml-1 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 p-0.5"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            </Badge>
+          ))}
+          {Object.keys(cleanFilters).length > 1 && (
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="h-7 text-xs" 
+              onClick={resetFilters}
+            >
+              Reset All
+            </Button>
+          )}
+        </div>
+      )}
 
       <Tabs
         defaultValue="all"
