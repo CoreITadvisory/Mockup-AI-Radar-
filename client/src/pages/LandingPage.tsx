@@ -3,30 +3,69 @@ import { Link } from "wouter";
 import { Shield, Search, LineChart, CheckCircle } from "lucide-react";
 import { useTheme } from "@/contexts/ToolsContext";
 import dashboardPreview from "@assets/Bildschirmfoto 2025-03-27 um 16.20.12.png";
+import { useEffect, useState } from "react";
 
 export default function LandingPage() {
   const { isDarkMode } = useTheme();
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
+
+  // Wir laden das Video aus dem public-Verzeichnis
+  // Diese Funktion überprüft, ob die Datei existiert
+  useEffect(() => {
+    // Die tatsächliche Video-URL
+    const videoPath = '/videos/ai-background.mp4';
+    
+    // Für den Fall, dass das Video nicht verfügbar ist, 
+    // verzichten wir auf den Fehler und zeigen die Standard-Hintergrundfarbe
+    fetch(videoPath)
+      .then(response => {
+        if (response.ok) {
+          setVideoUrl(videoPath);
+        }
+      })
+      .catch(() => {
+        // Stilles Scheitern - zeige die normalen Hintergründe
+      });
+  }, []);
 
   return (
     <div className={`min-h-screen ${isDarkMode ? 'dark bg-slate-950' : 'bg-white'}`}>
       {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        {/* Background gradient decoration */}
-        <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-950/40 dark:to-purple-950/40 -z-10"></div>
-        <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-gradient-to-r from-blue-200 to-purple-200 dark:from-blue-900/30 dark:to-purple-900/30 blur-3xl -z-10"></div>
-        <div className="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-gradient-to-r from-purple-200 to-blue-200 dark:from-purple-900/30 dark:to-blue-900/30 blur-3xl -z-10"></div>
+      <section className="relative overflow-hidden min-h-[90vh] flex items-center">
+        {/* Video Hintergrund */}
+        {videoUrl ? (
+          <div className="absolute inset-0 w-full h-full -z-20 overflow-hidden">
+            <div className="absolute inset-0 bg-black/30 z-10"></div>
+            <video 
+              className="absolute inset-0 w-full h-full object-cover"
+              autoPlay 
+              loop 
+              muted 
+              playsInline
+            >
+              <source src={videoUrl} type="video/mp4" />
+            </video>
+          </div>
+        ) : (
+          <>
+            {/* Fallback Gradient Hintergrund */}
+            <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-950/40 dark:to-purple-950/40 -z-10"></div>
+            <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-gradient-to-r from-blue-200 to-purple-200 dark:from-blue-900/30 dark:to-purple-900/30 blur-3xl -z-10"></div>
+            <div className="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-gradient-to-r from-purple-200 to-blue-200 dark:from-purple-900/30 dark:to-blue-900/30 blur-3xl -z-10"></div>
+          </>
+        )}
 
         <div className="container mx-auto px-6 py-16 md:py-32">
-          <nav className="flex justify-between items-center mb-12 md:mb-16">
+          <nav className="flex justify-between items-center mb-12 md:mb-16 relative z-10">
             <div className="flex items-center space-x-2">
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-2">
+              <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-2 shadow-lg">
                 <Shield className="text-white text-xl" />
               </div>
-              <h1 className="text-xl font-semibold dark:text-white">AI Guard</h1>
+              <h1 className="text-xl font-bold text-slate-900 dark:text-white drop-shadow-sm">AI Guard</h1>
             </div>
             <div className="flex items-center space-x-4">
               <Link href="/dashboard">
-                <Button variant="outline" className="dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
+                <Button variant="secondary" className="shadow-md bg-white/90 hover:bg-white border-0 text-slate-900 font-medium">
                   Login
                 </Button>
               </Link>
@@ -35,19 +74,19 @@ export default function LandingPage() {
 
           <div className="flex flex-col md:flex-row items-center justify-between gap-10">
             <div className="md:w-1/2">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 inline-block text-transparent bg-clip-text">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 dark:from-blue-300 dark:to-purple-300 inline-block text-transparent bg-clip-text drop-shadow-sm">
                 Sichern Sie Ihr Unternehmen vor AI-Risiken
               </h1>
-              <p className="text-lg md:text-xl mb-8 text-slate-700 dark:text-slate-300">
+              <p className="text-lg md:text-xl mb-8 text-slate-900 dark:text-white drop-shadow-md rounded-lg p-3 bg-white/80 dark:bg-black/40 backdrop-blur-sm inline-block">
                 Automatische Erkennung und Bewertung neuer KI-Tools, bevor Ihre Mitarbeiter sie mit sensiblen Daten verwenden.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 relative z-10">
                 <Link href="/dashboard">
-                  <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-6 text-lg font-medium rounded-lg">
+                  <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-6 text-lg font-semibold rounded-lg shadow-lg border-0">
                     Jetzt starten
                   </Button>
                 </Link>
-                <Button variant="outline" className="px-8 py-6 text-lg font-medium rounded-lg dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
+                <Button variant="secondary" className="px-8 py-6 text-lg font-medium rounded-lg shadow-lg bg-white/90 hover:bg-white text-slate-900 border-0">
                   Demo ansehen
                 </Button>
               </div>
