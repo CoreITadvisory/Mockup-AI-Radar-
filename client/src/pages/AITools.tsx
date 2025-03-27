@@ -32,12 +32,12 @@ export default function AITools() {
   const [filterSheetOpen, setFilterSheetOpen] = useState(false);
   
   // Use the custom hook with combined filters
-  const { data: tools, isLoading } = useToolsQuery({
+  const { data: tools, isLoading, isError } = useToolsQuery({
     tab: activeTab,
     ...filters
   });
 
-  // Filter tools based on search query
+  // Filter tools based on search query (client-side filtering)
   const filteredTools = tools?.filter(tool => {
     if (!searchQuery.trim()) return true;
     
@@ -45,7 +45,7 @@ export default function AITools() {
     return (
       tool.name.toLowerCase().includes(query) ||
       tool.description.toLowerCase().includes(query) ||
-      tool.provider.toLowerCase().includes(query) ||
+      (tool.provider && tool.provider.toLowerCase().includes(query)) ||
       tool.category.toLowerCase().includes(query)
     );
   });
@@ -206,9 +206,7 @@ export default function AITools() {
           {isLoading ? (
             <ToolsSkeletons />
           ) : filteredTools && filteredTools.length > 0 ? (
-            filteredTools
-              .filter((tool) => tool.riskLevel === RiskLevel.HIGH)
-              .map((tool) => <ToolCard key={tool.id} tool={tool} />)
+            filteredTools.map((tool) => <ToolCard key={tool.id} tool={tool} />)
           ) : (
             <div className="text-center py-8">
               <p className="text-slate-500">Keine passenden Tools gefunden.</p>
@@ -220,9 +218,7 @@ export default function AITools() {
           {isLoading ? (
             <ToolsSkeletons />
           ) : filteredTools && filteredTools.length > 0 ? (
-            filteredTools
-              .filter((tool) => tool.status === Status.PENDING)
-              .map((tool) => <ToolCard key={tool.id} tool={tool} />)
+            filteredTools.map((tool) => <ToolCard key={tool.id} tool={tool} />)
           ) : (
             <div className="text-center py-8">
               <p className="text-slate-500">Keine passenden Tools gefunden.</p>
@@ -234,9 +230,7 @@ export default function AITools() {
           {isLoading ? (
             <ToolsSkeletons />
           ) : filteredTools && filteredTools.length > 0 ? (
-            filteredTools
-              .filter((tool) => tool.status === Status.APPROVED)
-              .map((tool) => <ToolCard key={tool.id} tool={tool} />)
+            filteredTools.map((tool) => <ToolCard key={tool.id} tool={tool} />)
           ) : (
             <div className="text-center py-8">
               <p className="text-slate-500">Keine passenden Tools gefunden.</p>
@@ -248,9 +242,7 @@ export default function AITools() {
           {isLoading ? (
             <ToolsSkeletons />
           ) : filteredTools && filteredTools.length > 0 ? (
-            filteredTools
-              .filter((tool) => tool.status === Status.BLOCKED)
-              .map((tool) => <ToolCard key={tool.id} tool={tool} />)
+            filteredTools.map((tool) => <ToolCard key={tool.id} tool={tool} />)
           ) : (
             <div className="text-center py-8">
               <p className="text-slate-500">Keine passenden Tools gefunden.</p>

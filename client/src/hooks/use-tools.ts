@@ -6,6 +6,9 @@ import { AITool, Status } from "@shared/schema";
 export function useToolsQuery(filters?: Record<string, string>) {
   return useQuery<AITool[]>({
     queryKey: ["/api/tools", filters],
+    // Ensure we're invalidating the query when filters change
+    refetchOnWindowFocus: false,
+    refetchOnMount: true
   });
 }
 
