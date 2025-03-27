@@ -161,31 +161,31 @@ export default function ToolCard({ tool }: ToolCardProps) {
   const getSecurityAssessmentBgColor = (riskLevel: string) => {
     switch (riskLevel) {
       case RiskLevel.HIGH:
-        return "bg-red-50";
+        return "bg-red-50 dark:bg-red-900/20";
       case RiskLevel.MEDIUM:
-        return "bg-orange-50";
+        return "bg-orange-50 dark:bg-orange-900/20";
       case RiskLevel.LOW:
-        return "bg-green-50";
+        return "bg-green-50 dark:bg-green-900/20";
       default:
-        return "bg-slate-50";
+        return "bg-slate-50 dark:bg-slate-800";
     }
   };
 
   const getSecurityAssessmentTextColor = (riskLevel: string) => {
     switch (riskLevel) {
       case RiskLevel.HIGH:
-        return "text-red-700";
+        return "text-red-700 dark:text-red-400";
       case RiskLevel.MEDIUM:
-        return "text-orange-700";
+        return "text-orange-700 dark:text-orange-400";
       case RiskLevel.LOW:
-        return "text-green-700";
+        return "text-green-700 dark:text-green-400";
       default:
-        return "text-slate-700";
+        return "text-slate-700 dark:text-slate-300";
     }
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-all">
+    <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-md transition-all">
       <div className="p-5">
         <div className="flex justify-between items-start">
           <div className="flex items-start">
@@ -205,39 +205,39 @@ export default function ToolCard({ tool }: ToolCardProps) {
             </div>
             <div>
               <div className="flex items-center">
-                <h3 className="text-lg font-semibold">{tool.name}</h3>
+                <h3 className="text-lg font-semibold dark:text-white">{tool.name}</h3>
                 {getRiskLevelBadge(tool.riskLevel)}
               </div>
-              <p className="text-slate-500 text-sm">{tool.description}</p>
+              <p className="text-slate-500 dark:text-slate-400 text-sm">{tool.description}</p>
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            <span className="text-xs text-slate-500">
+            <span className="text-xs text-slate-500 dark:text-slate-400">
               <i className={cn(getSourceIcon(tool.source), "mr-1")}></i>{" "}
               {tool.source.charAt(0).toUpperCase() + tool.source.slice(1)}
             </span>
-            <span className="text-xs text-slate-500">
+            <span className="text-xs text-slate-500 dark:text-slate-400">
               {formatDate(tool.discoveredAt)}
             </span>
           </div>
         </div>
 
         <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-slate-50 p-3 rounded-lg">
-            <p className="text-base font-bold text-black uppercase mb-2 border-b border-slate-300 pb-1">Provider</p>
-            <p className="text-sm">{tool.provider}</p>
+          <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg">
+            <p className="text-base font-bold text-black dark:text-white uppercase mb-2 border-b border-slate-300 dark:border-slate-600 pb-1" style={{color: 'inherit !important'}}>Provider</p>
+            <p className="text-sm dark:text-slate-200">{tool.provider}</p>
           </div>
-          <div className="bg-slate-50 p-3 rounded-lg">
-            <p className="text-base font-bold text-black uppercase mb-2 border-b border-slate-300 pb-1">Category</p>
-            <p className="text-sm">
+          <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg">
+            <p className="text-base font-bold text-black dark:text-white uppercase mb-2 border-b border-slate-300 dark:border-slate-600 pb-1" style={{color: 'inherit !important'}}>Category</p>
+            <p className="text-sm dark:text-slate-200">
               {tool.category.charAt(0).toUpperCase() + tool.category.slice(1)}
             </p>
           </div>
-          <div className="bg-slate-50 p-3 rounded-lg">
-            <p className="text-base font-bold text-black uppercase mb-2 border-b border-slate-300 pb-1">
+          <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg">
+            <p className="text-base font-bold text-black dark:text-white uppercase mb-2 border-b border-slate-300 dark:border-slate-600 pb-1" style={{color: 'inherit !important'}}>
               Access Type
             </p>
-            <p className="text-sm">{tool.accessType}</p>
+            <p className="text-sm dark:text-slate-200">{tool.accessType}</p>
           </div>
         </div>
 
@@ -296,7 +296,7 @@ export default function ToolCard({ tool }: ToolCardProps) {
               <Button
                 variant="outline"
                 size="sm"
-                className="bg-green-100 hover:bg-green-200 text-green-700"
+                className="bg-green-100 hover:bg-green-200 text-green-700 dark:bg-green-900/30 dark:text-green-400"
                 disabled
               >
                 <Check className="mr-1 h-4 w-4" />
@@ -306,7 +306,7 @@ export default function ToolCard({ tool }: ToolCardProps) {
               <Button
                 variant="outline"
                 size="sm"
-                className="bg-red-100 hover:bg-red-200 text-red-700"
+                className="bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:text-red-400"
                 disabled
               >
                 <Ban className="mr-1 h-4 w-4" />
@@ -314,11 +314,11 @@ export default function ToolCard({ tool }: ToolCardProps) {
               </Button>
             ) : (
               <>
-                <span className="mr-2 text-sm text-slate-500">Mark as:</span>
+                <span className="mr-2 text-sm text-slate-500 dark:text-slate-400">Mark as:</span>
                 <Button
                   variant="outline"
                   size="sm"
-                  className="bg-red-100 hover:bg-red-200 text-red-700"
+                  className="bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-400"
                   onClick={handleBlock}
                   disabled={updateToolStatus.isPending}
                 >
@@ -328,7 +328,7 @@ export default function ToolCard({ tool }: ToolCardProps) {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="ml-2 bg-slate-100 hover:bg-slate-200 text-slate-700"
+                  className="ml-2 bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300"
                   onClick={handleApprove}
                   disabled={updateToolStatus.isPending}
                 >
