@@ -224,18 +224,18 @@ export default function ToolCard({ tool }: ToolCardProps) {
 
         <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-slate-50 p-3 rounded-lg">
-            <p className="text-sm font-semibold text-neutral-900 mb-1">PROVIDER</p>
+            <p className="text-base font-bold text-black uppercase mb-2 border-b border-slate-300 pb-1">Provider</p>
             <p className="text-sm">{tool.provider}</p>
           </div>
           <div className="bg-slate-50 p-3 rounded-lg">
-            <p className="text-sm font-semibold text-neutral-900 mb-1">CATEGORY</p>
+            <p className="text-base font-bold text-black uppercase mb-2 border-b border-slate-300 pb-1">Category</p>
             <p className="text-sm">
               {tool.category.charAt(0).toUpperCase() + tool.category.slice(1)}
             </p>
           </div>
           <div className="bg-slate-50 p-3 rounded-lg">
-            <p className="text-sm font-semibold text-neutral-900 mb-1">
-              ACCESS TYPE
+            <p className="text-base font-bold text-black uppercase mb-2 border-b border-slate-300 pb-1">
+              Access Type
             </p>
             <p className="text-sm">{tool.accessType}</p>
           </div>
@@ -249,11 +249,11 @@ export default function ToolCard({ tool }: ToolCardProps) {
         >
           <p
             className={cn(
-              "text-sm font-semibold mb-1",
+              "text-base font-bold uppercase mb-2 border-b pb-1",
               getSecurityAssessmentTextColor(tool.riskLevel)
             )}
           >
-            SECURITY ASSESSMENT
+            Security Assessment
           </p>
           <ul
             className={cn(
