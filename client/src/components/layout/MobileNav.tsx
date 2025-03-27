@@ -1,5 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
+import { LayoutDashboard, Wrench, AlertTriangle, Settings } from "lucide-react";
 
 export default function MobileNav() {
   const [location] = useLocation();
@@ -9,12 +10,12 @@ export default function MobileNav() {
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-10">
       <div className="flex justify-around">
-        <Link href="/">
+        <Link href="/dashboard">
           <a className={cn(
             "flex flex-col items-center py-2",
-            isActive("/") ? "text-blue-600" : "text-slate-600"
+            isActive("/dashboard") ? "text-blue-600" : "text-slate-600"
           )}>
-            <i className="ri-dashboard-line text-xl"></i>
+            <LayoutDashboard className="h-5 w-5" />
             <span className="text-xs mt-1">Dashboard</span>
           </a>
         </Link>
@@ -23,7 +24,7 @@ export default function MobileNav() {
             "flex flex-col items-center py-2",
             isActive("/tools") ? "text-blue-600" : "text-slate-600"
           )}>
-            <i className="ri-tools-line text-xl"></i>
+            <Wrench className="h-5 w-5" />
             <span className="text-xs mt-1">Tools</span>
           </a>
         </Link>
@@ -32,7 +33,7 @@ export default function MobileNav() {
             "flex flex-col items-center py-2",
             isActive("/risks") ? "text-blue-600" : "text-slate-600"
           )}>
-            <i className="ri-alert-line text-xl"></i>
+            <AlertTriangle className="h-5 w-5" />
             <span className="text-xs mt-1">Risks</span>
           </a>
         </Link>
@@ -41,7 +42,7 @@ export default function MobileNav() {
             "flex flex-col items-center py-2",
             isActive("/settings") ? "text-blue-600" : "text-slate-600"
           )}>
-            <i className="ri-settings-line text-xl"></i>
+            <Settings className="h-5 w-5" />
             <span className="text-xs mt-1">Settings</span>
           </a>
         </Link>

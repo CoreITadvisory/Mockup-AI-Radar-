@@ -1,5 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
+import { Shield } from "lucide-react";
 
 type NavItemProps = {
   href: string;
@@ -34,7 +35,7 @@ export default function Sidebar() {
       <div className="p-4 border-b border-slate-200">
         <div className="flex items-center space-x-2">
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-2">
-            <i className="ri-shield-keyhole-line text-white text-xl"></i>
+            <Shield className="text-white h-5 w-5" />
           </div>
           <h1 className="text-xl font-semibold">AI Guard</h1>
         </div>
@@ -43,10 +44,10 @@ export default function Sidebar() {
 
       <nav className="flex-1 overflow-y-auto p-4 space-y-1">
         <NavItem
-          href="/"
+          href="/dashboard"
           icon="ri-dashboard-line"
           label="Dashboard"
-          isActive={location === "/"}
+          isActive={location === "/dashboard"}
         />
         <NavItem
           href="/tools"
