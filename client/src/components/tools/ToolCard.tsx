@@ -224,17 +224,17 @@ export default function ToolCard({ tool }: ToolCardProps) {
 
         <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-slate-50 p-3 rounded-lg">
-            <p className="text-xs font-medium text-slate-500 mb-1">PROVIDER</p>
+            <p className="text-xs font-medium text-gray-700 mb-1">PROVIDER</p>
             <p className="text-sm">{tool.provider}</p>
           </div>
           <div className="bg-slate-50 p-3 rounded-lg">
-            <p className="text-xs font-medium text-slate-500 mb-1">CATEGORY</p>
+            <p className="text-xs font-medium text-gray-700 mb-1">CATEGORY</p>
             <p className="text-sm">
               {tool.category.charAt(0).toUpperCase() + tool.category.slice(1)}
             </p>
           </div>
           <div className="bg-slate-50 p-3 rounded-lg">
-            <p className="text-xs font-medium text-slate-500 mb-1">
+            <p className="text-xs font-medium text-gray-700 mb-1">
               ACCESS TYPE
             </p>
             <p className="text-sm">{tool.accessType}</p>
@@ -249,7 +249,7 @@ export default function ToolCard({ tool }: ToolCardProps) {
         >
           <p
             className={cn(
-              "text-xs font-medium mb-1",
+              "text-xs font-medium mb-1 font-semibold",
               getSecurityAssessmentTextColor(tool.riskLevel)
             )}
           >
@@ -274,7 +274,7 @@ export default function ToolCard({ tool }: ToolCardProps) {
                 variant="outline"
                 size="sm"
                 className="mr-2 inline-flex items-center"
-                onClick={() => window.open(tool.websiteUrl, "_blank")}
+                onClick={() => window.open(tool.websiteUrl as string, "_blank")}
               >
                 <ExternalLink className="mr-1.5 h-4 w-4" />
                 Visit Website
