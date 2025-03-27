@@ -3,50 +3,31 @@ import { Link } from "wouter";
 import { Shield, Search, LineChart, CheckCircle } from "lucide-react";
 import { useTheme } from "@/contexts/ToolsContext";
 import dashboardPreview from "@assets/Bildschirmfoto 2025-03-27 um 16.20.12.png";
-import { useEffect, useState } from "react";
+import { useRef } from "react";
 
 export default function LandingPage() {
   const { isDarkMode } = useTheme();
-  const [videoUrl, setVideoUrl] = useState<string | null>(null);
-
-  // Wir laden das Video aus dem public-Verzeichnis
-  // Diese Funktion überprüft, ob die Datei existiert
-  useEffect(() => {
-    // Die tatsächliche Video-URL
-    const videoPath = '/videos/ai-background.mp4';
-    
-    // Für den Fall, dass das Video nicht verfügbar ist, 
-    // verzichten wir auf den Fehler und zeigen die Standard-Hintergrundfarbe
-    fetch(videoPath)
-      .then(response => {
-        if (response.ok) {
-          setVideoUrl(videoPath);
-        }
-      })
-      .catch(() => {
-        // Stilles Scheitern - zeige die normalen Hintergründe
-      });
-  }, []);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   return (
     <div className={`min-h-screen ${isDarkMode ? 'dark bg-slate-950' : 'bg-white'}`}>
       {/* Hero Section */}
       <section className="relative overflow-hidden min-h-[90vh] flex items-center">
         {/* Video Hintergrund */}
-        {videoUrl ? (
-          <div className="absolute inset-0 w-full h-full -z-20 overflow-hidden">
-            <div className="absolute inset-0 bg-black/30 z-10"></div>
-            <video 
-              className="absolute inset-0 w-full h-full object-cover"
-              autoPlay 
-              loop 
-              muted 
-              playsInline
-            >
-              <source src={videoUrl} type="video/mp4" />
-            </video>
-          </div>
-        ) : (
+        <div className="absolute inset-0 w-full h-full -z-20 overflow-hidden">
+          <div className="absolute inset-0 bg-black/30 z-10"></div>
+          <video 
+            ref={videoRef}
+            className="absolute inset-0 w-full h-full object-cover"
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            src="/ai-background.mp4"
+          />
+        </div>
+        {/* Fallback falls das Video nicht lädt */}
+        {false && (
           <>
             {/* Fallback Gradient Hintergrund */}
             <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-950/40 dark:to-purple-950/40 -z-10"></div>
