@@ -8,12 +8,14 @@ export default function MobileNav() {
   const isActive = (path: string) => location === path;
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-10">
+    <div className="md:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-800 dark:to-purple-800 z-10 shadow-lg">
       <div className="flex justify-around">
         <Link href="/home">
           <a className={cn(
             "flex flex-col items-center py-2",
-            isActive("/home") ? "text-blue-600" : "text-slate-600"
+            isActive("/home") 
+              ? "text-white bg-white/20 rounded-lg px-4" 
+              : "text-white/80 hover:text-white hover:bg-white/10 rounded-lg px-4 transition-all"
           )}>
             <Home className="h-5 w-5" />
             <span className="text-xs mt-1">Home</span>
@@ -22,7 +24,9 @@ export default function MobileNav() {
         <Link href="/dashboard">
           <a className={cn(
             "flex flex-col items-center py-2",
-            isActive("/dashboard") ? "text-blue-600" : "text-slate-600"
+            isActive("/dashboard") 
+              ? "text-white bg-white/20 rounded-lg px-4" 
+              : "text-white/80 hover:text-white hover:bg-white/10 rounded-lg px-4 transition-all"
           )}>
             <LayoutDashboard className="h-5 w-5" />
             <span className="text-xs mt-1">Dashboard</span>
@@ -31,7 +35,9 @@ export default function MobileNav() {
         <Link href="/tools">
           <a className={cn(
             "flex flex-col items-center py-2",
-            isActive("/tools") ? "text-blue-600" : "text-slate-600"
+            isActive("/tools") 
+              ? "text-white bg-white/20 rounded-lg px-4" 
+              : "text-white/80 hover:text-white hover:bg-white/10 rounded-lg px-4 transition-all"
           )}>
             <Wrench className="h-5 w-5" />
             <span className="text-xs mt-1">Tools</span>
@@ -40,7 +46,9 @@ export default function MobileNav() {
         <Link href="/risks">
           <a className={cn(
             "flex flex-col items-center py-2",
-            isActive("/risks") ? "text-blue-600" : "text-slate-600"
+            isActive("/risks") 
+              ? "text-white bg-white/20 rounded-lg px-4" 
+              : "text-white/80 hover:text-white hover:bg-white/10 rounded-lg px-4 transition-all"
           )}>
             <AlertTriangle className="h-5 w-5" />
             <span className="text-xs mt-1">Risks</span>
@@ -49,7 +57,9 @@ export default function MobileNav() {
         <Link href="/settings">
           <a className={cn(
             "flex flex-col items-center py-2",
-            isActive("/settings") ? "text-blue-600" : "text-slate-600"
+            isActive("/settings") 
+              ? "text-white bg-white/20 rounded-lg px-4" 
+              : "text-white/80 hover:text-white hover:bg-white/10 rounded-lg px-4 transition-all"
           )}>
             <Settings className="h-5 w-5" />
             <span className="text-xs mt-1">Settings</span>
