@@ -128,7 +128,7 @@ export default function Home() {
           muted
           playsInline
         >
-          <source src="/ai-banner.mp4" type="video/mp4" />
+          <source src="/futuristic-ai-tools-loop.mp4" type="video/mp4" />
           Ihr Browser unterstützt keine Videos.
         </video>
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-purple-900/70 z-10"></div>
