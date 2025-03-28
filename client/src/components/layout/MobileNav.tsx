@@ -11,7 +11,7 @@ export default function MobileNav({ activePage = "" }: MobileNavProps) {
 
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-800 dark:to-purple-800 z-10 shadow-lg">
-      <div className="flex justify-around">
+      <div className="flex justify-around px-2">
         <Link href="/home">
           <a className={cn(
             "flex flex-col items-center py-2",

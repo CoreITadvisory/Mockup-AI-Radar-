@@ -35,7 +35,7 @@ export default function Header({ hideLogo = false, pageTitle = "Dashboard" }: He
         </button>
         {!hideLogo && (
           <Link href="/home">
-            <a className="flex items-center space-x-2 mr-5 hover:opacity-80 transition-opacity">
+            <a className="flex items-center space-x-3 mr-5 hover:opacity-80 transition-opacity">
               <div className="bg-white dark:bg-slate-800 rounded-lg p-1.5 shadow-sm">
                 <Shield className="text-blue-600 dark:text-blue-400 h-4 w-4" />
               </div>
@@ -43,7 +43,7 @@ export default function Header({ hideLogo = false, pageTitle = "Dashboard" }: He
             </a>
           </Link>
         )}
-        <h1 className="text-xl font-semibold text-white">
+        <h1 className="text-lg font-semibold text-white">
           {pageTitle}
         </h1>
       </div>
