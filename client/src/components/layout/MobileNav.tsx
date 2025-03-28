@@ -1,11 +1,13 @@
-import { Link, useLocation } from "wouter";
+import { Link } from "wouter";
 import { cn } from "@/lib/utils";
 import { Home, LayoutDashboard, Wrench, AlertTriangle, Settings } from "lucide-react";
 
-export default function MobileNav() {
-  const [location] = useLocation();
+type MobileNavProps = {
+  activePage?: string;
+};
 
-  const isActive = (path: string) => location === path;
+export default function MobileNav({ activePage = "" }: MobileNavProps) {
+  const isActive = (path: string) => `/${activePage}` === path;
 
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-800 dark:to-purple-800 z-10 shadow-lg">

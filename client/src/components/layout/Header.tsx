@@ -1,16 +1,20 @@
 import { useState } from "react";
-import { Link, useLocation } from "wouter";
+import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { ExportDialog } from "@/components/ui/export-dialog";
 import { Button } from "@/components/ui/button";
 import { MoonIcon, SunIcon, Menu, Download, Shield } from "lucide-react";
 import { useTheme } from "@/contexts/ToolsContext";
 
-export default function Header() {
+interface HeaderProps {
+  hideLogo?: boolean;
+  pageTitle?: string;
+}
+
+export default function Header({ hideLogo = false, pageTitle = "Dashboard" }: HeaderProps) {
   const [isExportDialogOpen, setIsExportDialogOpen] = useState(false);
   const { toast } = useToast();
   const { isDarkMode, toggleDarkMode } = useTheme();
-  const [location] = useLocation();
 
   const handleToggleSidebar = () => {
     // This would be implemented if we needed to toggle the sidebar on mobile
@@ -29,20 +33,18 @@ export default function Header() {
         >
           <Menu className="h-5 w-5" />
         </button>
-        <Link href="/home">
-          <a className="flex items-center space-x-2 mr-5 hover:opacity-80 transition-opacity">
-            <div className="bg-white dark:bg-slate-800 rounded-lg p-1.5 shadow-sm">
-              <Shield className="text-blue-600 dark:text-blue-400 h-4 w-4" />
-            </div>
-            <span className="text-lg font-semibold text-white">AI Guard</span>
-          </a>
-        </Link>
-        <h1 className="text-xl font-semibold hidden xs:block text-white">
-          {location === "/home" ? "Home" : 
-           location === "/dashboard" ? "Dashboard" : 
-           location === "/tools" ? "AI Tools" : 
-           location === "/risks" ? "Risk Assessment" : 
-           location === "/settings" ? "Settings" : "Dashboard"}
+        {!hideLogo && (
+          <Link href="/home">
+            <a className="flex items-center space-x-2 mr-5 hover:opacity-80 transition-opacity">
+              <div className="bg-white dark:bg-slate-800 rounded-lg p-1.5 shadow-sm">
+                <Shield className="text-blue-600 dark:text-blue-400 h-4 w-4" />
+              </div>
+              <span className="text-lg font-semibold text-white">AI Guard</span>
+            </a>
+          </Link>
+        )}
+        <h1 className="text-xl font-semibold text-white">
+          {pageTitle}
         </h1>
       </div>
 

@@ -15,16 +15,25 @@ import MobileNav from "./components/layout/MobileNav";
 import Header from "./components/layout/Header";
 
 function Layout({ children }: { children: React.ReactNode }) {
+  const [location] = useLocation();
+  const currentPage = location.substring(1); // Entfernt den führenden Slash
+  
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar />
+      <Sidebar activePage={currentPage} />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header />
+        <Header hideLogo={true} pageTitle={
+          currentPage === "home" ? "Home" : 
+          currentPage === "dashboard" ? "Dashboard" : 
+          currentPage === "tools" ? "AI Tools" : 
+          currentPage === "risks" ? "Risk Assessment" : 
+          currentPage === "settings" ? "Settings" : "Dashboard"
+        } />
         <main className="flex-1 overflow-y-auto bg-slate-50 dark:bg-slate-900">
           {children}
         </main>
       </div>
-      <MobileNav />
+      <MobileNav activePage={currentPage} />
     </div>
   );
 }
@@ -52,8 +61,8 @@ function AppRoutes() {
         <Route path="/risks" component={RiskAssessment} />
         <Route path="/settings" component={Settings} />
         <Route path="/404" component={NotFound} />
-        <Route path="/:rest*">
-          {(params) => <Redirect to={params.rest ? "/404" : "/home"} />}
+        <Route path="/:404*">
+          <Redirect to="/404" />
         </Route>
       </Switch>
     </Layout>

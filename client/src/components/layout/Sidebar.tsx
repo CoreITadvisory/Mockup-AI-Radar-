@@ -1,4 +1,4 @@
-import { Link, useLocation } from "wouter";
+import { Link } from "wouter";
 import { cn } from "@/lib/utils";
 import { Shield } from "lucide-react";
 
@@ -27,8 +27,11 @@ const NavItem = ({ href, icon, label, isActive }: NavItemProps) => {
   );
 };
 
-export default function Sidebar() {
-  const [location] = useLocation();
+type SidebarProps = {
+  activePage?: string;
+};
+
+export default function Sidebar({ activePage = "" }: SidebarProps) {
 
   return (
     <aside className="hidden md:flex flex-col w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 h-full shadow-sm">
@@ -49,31 +52,31 @@ export default function Sidebar() {
           href="/home"
           icon="ri-home-line"
           label="Home"
-          isActive={location === "/home"}
+          isActive={activePage === "home"}
         />
         <NavItem
           href="/dashboard"
           icon="ri-dashboard-line"
           label="Dashboard"
-          isActive={location === "/dashboard"}
+          isActive={activePage === "dashboard"}
         />
         <NavItem
           href="/tools"
           icon="ri-tools-line"
           label="AI Tools"
-          isActive={location === "/tools"}
+          isActive={activePage === "tools"}
         />
         <NavItem
           href="/risks"
           icon="ri-alert-line"
           label="Risk Assessment"
-          isActive={location === "/risks"}
+          isActive={activePage === "risks"}
         />
         <NavItem
           href="/settings"
           icon="ri-settings-line"
           label="Settings"
-          isActive={location === "/settings"}
+          isActive={activePage === "settings"}
         />
 
         <div className="pt-4 mt-4 border-t border-slate-200 dark:border-slate-800">
