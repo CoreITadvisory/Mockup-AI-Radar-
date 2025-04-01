@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import StatCard from "@/components/dashboard/StatCard";
 import ToolCard from "@/components/tools/ToolCard";
-import { RiskLevel, Category, Source, Status, AITool } from "@shared/schema";
+import { RiskLevel, Category, Source, Status, AITool } from "@/types";
 import { ExportDialog } from "@/components/ui/export-dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
