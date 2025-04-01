@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { AITool, Status } from "@shared/schema";
+import { AITool, Status } from "@/types";
 
 interface ToolsContextType {
   isDarkMode: boolean;

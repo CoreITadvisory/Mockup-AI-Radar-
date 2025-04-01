@@ -1,5 +1,5 @@
 import { queryClient, apiRequest } from "./queryClient";
-import { AITool, InsertAITool, Status } from "@shared/schema";
+import { AITool, Status } from "@/types";
 
 export async function getTools(filters?: {
   riskLevel?: string;

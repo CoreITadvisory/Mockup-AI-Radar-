@@ -9,7 +9,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { AITool, RiskLevel, Status } from "@shared/schema";
+import { AITool, RiskLevel, Status } from "@/types";
 import { cn } from "@/lib/utils";
 import { 
   ExternalLink, 

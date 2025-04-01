@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
 import { apiRequest } from "@/lib/queryClient";
-import { AITool, Status } from "@shared/schema";
+import { AITool, Status } from "@/types";
 
 export function useToolsQuery(filters?: Record<string, string>) {
   // Clean up filters to remove any undefined or empty values

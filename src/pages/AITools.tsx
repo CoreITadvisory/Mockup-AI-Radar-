@@ -5,7 +5,7 @@ import ToolCard from "@/components/tools/ToolCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { RiskLevel, Status, Category, Source } from "@shared/schema";
+import { RiskLevel, Status, Category, Source } from "@/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Search, X, Filter, AlertCircle, AlertTriangle, Shield, Github, Hash, Twitter, MessageCircle } from "lucide-react";
