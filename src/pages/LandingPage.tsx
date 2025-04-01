@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { Shield, Search, LineChart, CheckCircle } from "lucide-react";
 import { useTheme } from "@/contexts/ToolsContext";
-import dashboardPreview from "@assets/Bildschirmfoto 2025-03-27 um 16.20.12.png";
 import { useRef } from "react";
 
 export default function LandingPage() {
@@ -88,7 +87,7 @@ export default function LandingPage() {
                 <div className="p-4">
                   <div className="bg-white dark:bg-slate-800 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 shadow">
                     <img 
-                      src={dashboardPreview} 
+                      src="/images/dashboard-preview.png" 
                       alt="AI Guard Dashboard" 
                       className="w-full object-cover rounded-lg shadow-inner"
                     />
