@@ -87,7 +87,7 @@ export default function LandingPage() {
                 <div className="p-4">
                   <div className="bg-white dark:bg-slate-800 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 shadow">
                     <img 
-                      src="/images/dashboard-preview.png" 
+                      src="/images/dashboard-preview.svg" 
                       alt="AI Guard Dashboard" 
                       className="w-full object-cover rounded-lg shadow-inner"
                     />
